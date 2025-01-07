@@ -65,6 +65,7 @@ const generateFullSudoku = (board: (number | null)[][]): boolean => {
  * @returns El tablero de Sudoku con el puzzle generado.
  */
 const removeNumbers = (board: (number | null)[][]): (number | null)[][] => {
+  // Verifica si el tablero tiene una solución única
   const isUniqueSolution = (board: (number | null)[][]): boolean => {
     let solutionCount = 0
 
@@ -77,7 +78,7 @@ const removeNumbers = (board: (number | null)[][]): (number | null)[][] => {
                 board[row][col] = num
                 if (solve(board)) solutionCount++
                 board[row][col] = null
-                if (solutionCount > 1) return false
+                if (solutionCount > 1) return false // Si hay más de una solución, es inválido
               }
             }
             return false
@@ -88,31 +89,64 @@ const removeNumbers = (board: (number | null)[][]): (number | null)[][] => {
     }
 
     solve(board.map(row => row.slice()))
-    return solutionCount === 1
+    return solutionCount === 1 // Asegura que haya solo una solución
   }
 
   const puzzle = board.map(row => row.slice()) as (number | null)[][]
-  let attempts = 0
 
-  while (attempts < 50) {
-    const row = Math.floor(Math.random() * 9)
-    const col = Math.floor(Math.random() * 9)
+  let canRemoveMore = true // Flag para saber si se pueden eliminar más números
 
-    const removed = puzzle[row][col]
-    if (removed !== null) {
-      puzzle[row][col] = null
+  while (canRemoveMore) {
+    let removedCell = false // Flag para indicar si se ha eliminado alguna celda en la iteración actual
+    let cellsToCheck = []
 
-      if (!isUniqueSolution(puzzle)) {
-        puzzle[row][col] = removed // Restablecer si la solución no es única
+    // Recopilar las celdas que tienen números para intentar eliminar
+    for (let row = 0; row < 9; row++) {
+      for (let col = 0; col < 9; col++) {
+        if (puzzle[row][col] !== null) {
+          cellsToCheck.push([row, col])
+        }
       }
     }
 
-    attempts++
-    // Parar una vez se han eliminado suficientes celdas
-    if (puzzle.flat().filter(cell => cell === null).length >= 45) break
+    // Aleatoriamente mezclar las celdas para eliminar de manera aleatoria
+    cellsToCheck = shuffle(cellsToCheck) // Función shuffle para mezclar el array
+
+    // Intentar eliminar números de las celdas seleccionadas
+    for (const [row, col] of cellsToCheck) {
+      const removed = puzzle[row][col]
+      puzzle[row][col] = null
+
+      if (isUniqueSolution(puzzle)) {
+        removedCell = true // Se ha eliminado un número
+      } else {
+        puzzle[row][col] = removed // Restaurar si la solución ya no es única
+      }
+    }
+
+    // Verificar si hemos llegado al punto de no poder eliminar más números
+    canRemoveMore = removedCell // Si no se ha eliminado ninguna celda en esta iteración, detenemos
+
+    // Parar si hemos eliminado suficientes celdas
+    if (puzzle.flat().filter(cell => cell === null).length >= 45) {
+      break
+    }
   }
 
   return puzzle
+}
+
+/**
+ * Función para mezclar aleatoriamente un array (utilizado para desordenar las celdas a comprobar)
+ * @param array El array a mezclar.
+ * @returns El array mezclado.
+ */
+const shuffle = <T>(array: T[]): T[] => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[array[i], array[j]] = [array[j], array[i]] // Intercambiar elementos
+  }
+  return array
 }
 
 /**
