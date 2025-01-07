@@ -10,11 +10,11 @@ interface SudokuBoardProps {
  */
 const SudokuBoard: React.FC<SudokuBoardProps> = ({ board }) => {
   return (
-    <div className="sudoku-board">
+    <div className='sudoku-board'>
       {board.map((row, rowIndex) => (
-        <div key={rowIndex} className="sudoku-row">
+        <div key={rowIndex} className='sudoku-row'>
           {row.map((cell, cellIndex) => (
-            <div key={cellIndex} className="sudoku-cell">
+            <div key={cellIndex} className='sudoku-cell'>
               {cell !== null ? cell : ''}
             </div>
           ))}
