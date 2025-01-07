@@ -1,0 +1,66 @@
+.sudoku-board {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    width: 360px;
+    height: 360px;
+    margin: 20px auto;
+    border: 3px solid black;
+    /* Borde exterior más grueso */
+    background-color: white;
+    /* Fondo blanco */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* Sombras para dar un efecto elegante */
+}
+
+.sudoku-row {
+    display: contents;
+    /* Esto asegura que las filas no alteren la cuadrícula */
+}
+
+.sudoku-cell {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    box-sizing: border-box;
+    background-color: white;
+    /* Fondo blanco para celdas */
+    border: 1px solid black;
+    /* Líneas negras finas */
+}
+
+/* Líneas gruesas para los bloques 3x3 */
+.sudoku-cell:nth-child(3n) {
+    border-right: 3px solid black;
+}
+
+.sudoku-row:nth-child(3n) .sudoku-cell {
+    border-bottom: 3px solid black;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.control-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.control-button:hover {
+    background-color: #0056b3;
+}
