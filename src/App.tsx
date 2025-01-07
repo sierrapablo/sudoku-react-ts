@@ -23,7 +23,7 @@ const App: React.FC = () => {
 
   const handleSolveSudoku = async () => {
     const boardCopy = board.map(row => [...row]) // Crea una copia para trabajar con ella
-    await solveSudoku(boardCopy, setBoard, 100) // Resuelve con una visualización de 100ms por iteración
+    await solveSudoku(boardCopy, setBoard, 5) // Resuelve con una visualización de 5ms por iteración
   }
 
   return (
