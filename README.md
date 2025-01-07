@@ -1,50 +1,46 @@
-# React + TypeScript + Vite
+# Sudoku Game
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Un juego de Sudoku interactivo implementado con **React**, **TypeScript**, y **Vite**. Este proyecto permite a los usuarios generar puzzles de Sudoku con solución única y resolverlos visualmente mediante un algoritmo de backtracking.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🎯 Descripción
 
-## Expanding the ESLint configuration
+El objetivo del proyecto es implementar un tablero de Sudoku funcional que permita:
+- Generar puzzles válidos y resolvibles con una única solución.
+- Resolver automáticamente los puzzles con visualización en tiempo real.
+- Experimentar con la lógica de generación y solución de Sudokus usando algoritmos basados en backtracking.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+---
 
-- Configure the top-level `parserOptions` property like this:
+## ✨ Características
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- **Generación de puzzles**: Crea Sudokus con un número mínimo de pistas, asegurando que tengan una única solución.
+- **Resolución automática**: Utiliza un algoritmo de backtracking que visualiza cada paso del proceso.
+- **Interfaz interactiva**: Diseño limpio y estilizado para simular la estética clásica del Sudoku.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+---
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+## 📚 Uso
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+- **Generar Sudoku**: Presiona el botón "Generar Sudoku" para crear un nuevo puzzle.
+- **Resolver Sudoku**: Presiona "Resolver Sudoku" para iniciar la resolución automática con visualización en tiempo real.
+- **Recargar página**: Cada vez que se recarga la página, un nuevo puzzle se genera automáticamente.
+
+---
+
+## 📌 Próximos pasos
+
+- 💡 Añadir soporte para entrada manual de números.
+- 💡 Implementar validación para puzzles personalizados.
+- 💡 Añadir niveles de dificultad al generador de puzzles.
+
+---
+
+## 🤝 Contribuciones
+
+¡Las contribuciones son bienvenidas! Por favor, crea un fork del proyecto y envía un pull request con tus mejoras.
+
+Si tienes cualquier duda, puedes escribirme al email de mi perfil de GitHub.
+
+---
