@@ -5,16 +5,12 @@
     height: 360px;
     margin: 20px auto;
     border: 3px solid black;
-    /* Borde exterior más grueso */
     background-color: white;
-    /* Fondo blanco */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    /* Sombras para dar un efecto elegante */
 }
 
 .sudoku-row {
     display: contents;
-    /* Esto asegura que las filas no alteren la cuadrícula */
 }
 
 .sudoku-cell {
@@ -28,12 +24,9 @@
     text-align: center;
     box-sizing: border-box;
     background-color: white;
-    /* Fondo blanco para celdas */
     border: 1px solid black;
-    /* Líneas negras finas */
 }
 
-/* Líneas gruesas para los bloques 3x3 */
 .sudoku-cell:nth-child(3n) {
     border-right: 3px solid black;
 }
