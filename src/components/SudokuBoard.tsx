@@ -5,8 +5,8 @@ interface SudokuBoardProps {
 }
 
 /**
- * Renders a Sudoku board as a grid.
- * @param board A 9x9 matrix representing the Sudoku board.
+ * Renderiza un tablero de sudoku como una cuadrícula.
+ * @param board una matriz 9x9 que representa el tablero del sudoku.
  */
 const SudokuBoard: React.FC<SudokuBoardProps> = ({ board }) => {
   return (

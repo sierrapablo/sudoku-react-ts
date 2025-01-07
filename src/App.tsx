@@ -8,22 +8,22 @@ const App: React.FC = () => {
     Array.from({ length: 9 }, () => Array(9).fill(null))
   )
 
-  // Generate a Sudoku puzzle when the app loads
+  // Generar un puzzle cuando la app se recarga
   useEffect(() => {
     const initializeSudoku = () => {
       const newBoard = generateSudokuPuzzle()
       setBoard(newBoard)
     }
     initializeSudoku()
-  }, []) // Empty dependency array ensures this runs only once on mount
+  }, []) // Asegura que solo se ejecuta una vez
 
   const handleGenerateSudoku = () => {
     setBoard(generateSudokuPuzzle())
   }
 
   const handleSolveSudoku = async () => {
-    const boardCopy = board.map(row => [...row]) // Create a copy to work on
-    await solveSudoku(boardCopy, setBoard, 100) // Solve with visualization (100ms delay)
+    const boardCopy = board.map(row => [...row]) // Crea una copia para trabajar con ella
+    await solveSudoku(boardCopy, setBoard, 100) // Resuelve con una visualización de 100ms por iteración
   }
 
   return (
