@@ -179,57 +179,88 @@ export const generateSudokuPuzzle = (): (number | null)[][] => {
 }
 
 /**
- * Resuelve un tablero de Sudoku utilizando backtracking con soporte visual.
- * Actualiza el tablero en cada paso con el correspondiente callback
+ * Resuelve un tablero de Sudoku utilizando backtracking mejorado con heurística MRV.
+ * @param board El tablero de Sudoku.
+ * @param updateBoard Función para actualizar el estado del tablero en tiempo real.
+ * @param delay Tiempo en milisegundos entre cada actualización (opcional).
+ * @returns Promesa que se resuelve con verdadero si el Sudoku se resolvió, falso en caso contrario.
  */
 export const solveSudoku = async (
   board: (number | null)[][],
   updateBoard: (board: (number | null)[][]) => void,
   delay: number = 50
 ): Promise<boolean> => {
-  const findEmptyCell = (): [number, number] | null => {
+  /**
+   * Encuentra la celda vacía con el menor número de valores posibles (heurística MRV).
+   * @returns Las coordenadas [fila, columna] de la celda seleccionada, o null si no hay celdas vacías.
+   */
+  const findBestCell = (): [number, number] | null => {
+    let bestCell: [number, number] | null = null
+    let minOptions = 10 // Más opciones posibles son 9, por lo que 10 es un valor seguro inicial
+
     for (let row = 0; row < 9; row++) {
       for (let col = 0; col < 9; col++) {
-        if (board[row][col] === null) return [row, col]
+        if (board[row][col] === null) {
+          const options = getValidOptions(board, row, col)
+          if (options.length < minOptions) {
+            minOptions = options.length
+            bestCell = [row, col]
+            if (minOptions === 1) return bestCell // Optimización: parar si encontramos la mejor opción posible
+          }
+        }
       }
     }
-    return null
+    return bestCell
   }
 
-  const isValid = (
+  /**
+   * Obtiene una lista de números válidos para una celda específica.
+   * @param board El tablero de Sudoku.
+   * @param row Fila de la celda.
+   * @param col Columna de la celda.
+   * @returns Lista de números válidos para la celda.
+   */
+  const getValidOptions = (
     board: (number | null)[][],
     row: number,
-    col: number,
-    num: number
-  ): boolean => {
+    col: number
+  ): number[] => {
+    const invalid = new Set<number>()
+
     for (let i = 0; i < 9; i++) {
-      if (board[row][i] === num || board[i][col] === num) return false
+      if (board[row][i] !== null) invalid.add(board[row][i] as number) // Verificar fila
+      if (board[i][col] !== null) invalid.add(board[i][col] as number) // Verificar columna
     }
+
     const startRow = Math.floor(row / 3) * 3
     const startCol = Math.floor(col / 3) * 3
     for (let i = startRow; i < startRow + 3; i++) {
       for (let j = startCol; j < startCol + 3; j++) {
-        if (board[i][j] === num) return false
+        if (board[i][j] !== null) invalid.add(board[i][j] as number) // Verificar subcuadro 3x3
       }
     }
-    return true
+
+    // Retornar todos los números posibles excepto los inválidos
+    return Array.from({ length: 9 }, (_, i) => i + 1).filter(
+      num => !invalid.has(num)
+    )
   }
 
-  const emptyCell = findEmptyCell()
-  if (!emptyCell) return true // Si no hay celdas vacías, el puzzle queda resuelto
+  const bestCell = findBestCell()
+  if (!bestCell) return true // No hay celdas vacías, puzzle resuelto
 
-  const [row, col] = emptyCell
-  for (let num = 1; num <= 9; num++) {
-    if (isValid(board, row, col, num)) {
-      board[row][col] = num
-      updateBoard([...board.map(row => [...row])]) // Actualizar el estado del tablero
-      await new Promise(resolve => setTimeout(resolve, delay)) // Añadir delay para visualizar el progreso
+  const [row, col] = bestCell
+  const options = getValidOptions(board, row, col)
 
-      if (await solveSudoku(board, updateBoard, delay)) return true
-      board[row][col] = null
-      updateBoard([...board.map(row => [...row])]) // Reiniciar el estado
-    }
+  for (const num of options) {
+    board[row][col] = num
+    updateBoard([...board.map(row => [...row])]) // Actualizar tablero
+    await new Promise(resolve => setTimeout(resolve, delay)) // Retrasar para visualización
+
+    if (await solveSudoku(board, updateBoard, delay)) return true
+    board[row][col] = null // Backtrack
+    updateBoard([...board.map(row => [...row])]) // Actualizar tablero tras retroceder
   }
 
-  return false // Trigger backtracking
+  return false // Retroceder si ninguna opción funciona
 }
