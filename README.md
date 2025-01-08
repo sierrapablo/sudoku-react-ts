@@ -1,31 +1,55 @@
 # Sudoku Game
 
-Un juego de Sudoku interactivo implementado con **React**, **TypeScript**, y **Vite**. Este proyecto permite a los usuarios generar puzzles de Sudoku con solución única y resolverlos visualmente mediante un algoritmo de backtracking.
+Un juego de Sudoku interactivo desarrollado con **React**, **TypeScript**, y **Vite**. Este proyecto genera puzzles con solución única y permite resolverlos automáticamente con visualización paso a paso.
 
 ---
 
 ## 🎯 Descripción
 
 El objetivo del proyecto es implementar un tablero de Sudoku funcional que permita:
-- Generar puzzles válidos y resolvibles con una única solución.
-- Resolver automáticamente los puzzles con visualización en tiempo real.
-- Experimentar con la lógica de generación y solución de Sudokus usando algoritmos basados en backtracking.
+- **Generar puzzles válidos y resolvibles** con una única solución.
+- **Resolver automáticamente** los puzzles mediante un algoritmo de backtracking visual.
+- Ofrecer una interfaz intuitiva y estética que simule el aspecto clásico del Sudoku.
 
 ---
 
 ## ✨ Características
 
-- **Generación de puzzles**: Crea Sudokus con un número mínimo de pistas, asegurando que tengan una única solución.
-- **Resolución automática**: Utiliza un algoritmo de backtracking que visualiza cada paso del proceso.
-- **Interfaz interactiva**: Diseño limpio y estilizado para simular la estética clásica del Sudoku.
+- **Generación de puzzles**:
+  - Crea puzzles con un mínimo de pistas, garantizando una solución única.
+  - Basado en un algoritmo avanzado con heurísticas para optimizar el proceso.
+- **Resolución automática**:
+  - Utiliza un algoritmo optimizado que prioriza las celdas con menos valores posibles (MRV).
+  - Visualización en tiempo real durante el proceso de resolución.
+- **Interfaz interactiva**:
+  - Diseño simple y atractivo que simula un Sudoku clásico.
+
+---
+
+## 🚀 Instalación
+
+1. **Clonar el repositorio**:
+   ```bash
+   git clone https://github.com/tu-usuario/sudoku-game.git
+   cd sudoku-game
+   ```
+2. **Instalar las dependencias**:
+   ```bash
+   npm install
+   ```
+3. **Iniciar el servidor de desarrollo**:
+   ```bash
+   npm run dev
+   ```
+4. **Abrir el navegador**: Ve a ``http://localhost:5173`` para visualizar la aplicación.
 
 ---
 
 ## 📚 Uso
 
 - **Generar Sudoku**: Presiona el botón "Generar Sudoku" para crear un nuevo puzzle.
-- **Resolver Sudoku**: Presiona "Resolver Sudoku" para iniciar la resolución automática con visualización en tiempo real.
-- **Recargar página**: Cada vez que se recarga la página, un nuevo puzzle se genera automáticamente.
+- **Resolver Sudoku**: Presiona "Resolver Sudoku" para iniciar la resolución automática.
+- **Recargar página**: Un nuevo puzzle se genera automáticamente al recargar.
 
 ---
 
@@ -37,10 +61,18 @@ El objetivo del proyecto es implementar un tablero de Sudoku funcional que permi
 
 ---
 
+## 🎥 Vista previa
+
+![Sudoku](src/assets/sudoku.gif)
+
+---
+
 ## 🤝 Contribuciones
 
-¡Las contribuciones son bienvenidas! Por favor, crea un fork del proyecto y envía un pull request con tus mejoras.
+¡Las contribuciones son bienvenidas! Si tienes ideas o mejoras, sigue estos pasos:
 
-Si tienes cualquier duda, puedes escribirme al email de mi perfil de GitHub.
+  1. Crea un **fork** del repositorio.
+  2. Realiza los cambios en tu repositorio.
+  3. Envía un **pull request** describiendo tus cambios.
 
 ---
