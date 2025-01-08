@@ -30,7 +30,7 @@ El objetivo del proyecto es implementar un tablero de Sudoku funcional que permi
 
 1. **Clonar el repositorio**:
    ```bash
-   git clone https://github.com/tu-usuario/sudoku-react-ts.git
+   git clone https://github.com/sierrapablo/sudoku-react-ts.git
    cd sudoku-react-ts
    ```
 2. **Instalar las dependencias**:
