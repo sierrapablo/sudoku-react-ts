@@ -30,6 +30,39 @@ const isValid = (
 }
 
 /**
+ * Obtiene una lista de números válidos para una celda específica.
+ * @param board El tablero de Sudoku.
+ * @param row Fila de la celda.
+ * @param col Columna de la celda.
+ * @returns Lista de números válidos para la celda.
+ */
+const getValidOptions = (
+  board: (number | null)[][],
+  row: number,
+  col: number
+): number[] => {
+  const invalid = new Set<number>()
+
+  for (let i = 0; i < 9; i++) {
+    if (board[row][i] !== null) invalid.add(board[row][i] as number) // Verificar fila
+    if (board[i][col] !== null) invalid.add(board[i][col] as number) // Verificar columna
+  }
+
+  const startRow = Math.floor(row / 3) * 3
+  const startCol = Math.floor(col / 3) * 3
+  for (let i = startRow; i < startRow + 3; i++) {
+    for (let j = startCol; j < startCol + 3; j++) {
+      if (board[i][j] !== null) invalid.add(board[i][j] as number) // Verificar subcuadro 3x3
+    }
+  }
+
+  // Retornar todos los números posibles excepto los inválidos
+  return Array.from({ length: 9 }, (_, i) => i + 1).filter(
+    num => !invalid.has(num)
+  )
+}
+
+/**
  * Genera una solución completa de Sudoku utilizando backtracking.
  * @param board El tablero de Sudoku.
  * @returns Verdadero si se generó una solución, falso en caso contrario.
@@ -213,39 +246,6 @@ export const solveSudoku = async (
     return bestCell
   }
 
-  /**
-   * Obtiene una lista de números válidos para una celda específica.
-   * @param board El tablero de Sudoku.
-   * @param row Fila de la celda.
-   * @param col Columna de la celda.
-   * @returns Lista de números válidos para la celda.
-   */
-  const getValidOptions = (
-    board: (number | null)[][],
-    row: number,
-    col: number
-  ): number[] => {
-    const invalid = new Set<number>()
-
-    for (let i = 0; i < 9; i++) {
-      if (board[row][i] !== null) invalid.add(board[row][i] as number) // Verificar fila
-      if (board[i][col] !== null) invalid.add(board[i][col] as number) // Verificar columna
-    }
-
-    const startRow = Math.floor(row / 3) * 3
-    const startCol = Math.floor(col / 3) * 3
-    for (let i = startRow; i < startRow + 3; i++) {
-      for (let j = startCol; j < startCol + 3; j++) {
-        if (board[i][j] !== null) invalid.add(board[i][j] as number) // Verificar subcuadro 3x3
-      }
-    }
-
-    // Retornar todos los números posibles excepto los inválidos
-    return Array.from({ length: 9 }, (_, i) => i + 1).filter(
-      num => !invalid.has(num)
-    )
-  }
-
   const bestCell = findBestCell()
   if (!bestCell) return true // No hay celdas vacías, puzzle resuelto
 
@@ -263,4 +263,40 @@ export const solveSudoku = async (
   }
 
   return false // Retroceder si ninguna opción funciona
+}
+
+export const evaluateDifficulty = (
+  puzzle: (number | null)[][]
+): { difficulty: string; score: number } => {
+  let score = 0
+
+  // Puntuar con base en las opciones válidas de las celdas vacías
+  for (let row = 0; row < 9; row++) {
+    for (let col = 0; col < 9; col++) {
+      if (puzzle[row][col] === null) {
+        const options = getValidOptions(puzzle, row, col) // Usar la función auxiliar
+        score += 10 - options.length // Más difícil si hay menos opciones válidas
+      }
+    }
+  }
+
+  // Resolver el puzzle para contar iteraciones
+  let steps = 0
+  const countSteps = () => {
+    steps++
+  }
+  solveSudoku(
+    puzzle.map(row => row.slice()),
+    countSteps,
+    0
+  ) // Resolver sin visualización
+  score += steps
+
+  // Clasificar dificultad
+  let difficulty = 'Fácil'
+  if (score > 100) difficulty = 'Medio'
+  if (score > 200) difficulty = 'Difícil'
+  if (score > 300) difficulty = 'Experto'
+
+  return { difficulty, score }
 }
