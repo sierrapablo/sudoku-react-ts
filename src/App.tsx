@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import SudokuBoard from './components/SudokuBoard'
 import './styles/SudokuBoard.css'
-import { generateSudokuPuzzle, solveSudoku } from './utils/sudoku'
+import {
+  generateSudokuPuzzle,
+  solveSudoku,
+  evaluateDifficulty
+} from './utils/sudoku'
 
 const App: React.FC = () => {
   const [board, setBoard] = useState<(number | null)[][]>(
     Array.from({ length: 9 }, () => Array(9).fill(null))
   )
   const [message, setMessage] = useState<string>('')
+  const [difficulty, setDifficulty] = useState<string>('')
 
   // Generar un puzzle cuando la app se recarga
   useEffect(() => {
@@ -22,6 +27,8 @@ const App: React.FC = () => {
     setTimeout(() => {
       const newBoard = generateSudokuPuzzle()
       setBoard(newBoard)
+      const { difficulty, score } = evaluateDifficulty(newBoard)
+      setDifficulty(`${difficulty} (Puntaje: ${score})`)
       setMessage('Puzzle listo!')
     }, 100) // Simulación de tiempo para generar el puzzle, como mínimo 100ms
   }
@@ -57,6 +64,7 @@ const App: React.FC = () => {
       </div>
       <SudokuBoard board={board} />
       <p className='status-message'>{message}</p>
+      {difficulty && <p className="difficulty-label">Dificultad: {difficulty}</p>}
     </div>
   )
 }
