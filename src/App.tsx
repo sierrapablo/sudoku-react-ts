@@ -7,23 +7,41 @@ const App: React.FC = () => {
   const [board, setBoard] = useState<(number | null)[][]>(
     Array.from({ length: 9 }, () => Array(9).fill(null))
   )
+  const [message, setMessage] = useState<string>('')
 
   // Generar un puzzle cuando la app se recarga
   useEffect(() => {
     const initializeSudoku = () => {
-      const newBoard = generateSudokuPuzzle()
-      setBoard(newBoard)
+      handleGenerateSudoku()
     }
     initializeSudoku()
   }, []) // Asegura que solo se ejecuta una vez
 
   const handleGenerateSudoku = () => {
-    setBoard(generateSudokuPuzzle())
+    setMessage('Generando puzzle...')
+    setTimeout(() => {
+      const newBoard = generateSudokuPuzzle()
+      setBoard(newBoard)
+      setMessage('Puzzle listo!')
+    }, 100) // Simulación de tiempo para generar el puzzle, como mínimo 100ms
   }
 
   const handleSolveSudoku = async () => {
-    const boardCopy = board.map(row => [...row]) // Crea una copia para trabajar con ella
-    await solveSudoku(boardCopy, setBoard) // Resuelve
+    setMessage('Resolviendo...')
+    let steps = 0
+
+    // Contador de pasos dentro de una función de envoltura para actualizar el estado
+    const countSteps = (updatedBoard: (number | null)[][]) => {
+      steps++
+      setBoard(updatedBoard)
+    }
+
+    const solved = await solveSudoku(board, countSteps) // Resolución con visualización
+    if (solved) {
+      setMessage(`¡Puzzle resuelto! ${steps} iteraciones`)
+    } else {
+      setMessage('No se pudo resolver el puzzle.')
+    }
   }
 
   return (
@@ -38,6 +56,7 @@ const App: React.FC = () => {
         </button>
       </div>
       <SudokuBoard board={board} />
+      <p className='status-message'>{message}</p>
     </div>
   )
 }
