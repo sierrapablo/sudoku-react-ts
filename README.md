@@ -58,6 +58,7 @@ El objetivo del proyecto es implementar un tablero de Sudoku funcional que permi
 - 💡 Añadir soporte para entrada manual de números.
 - 💡 Implementar validación para puzzles personalizados.
 - 💡 Añadir niveles de dificultad al generador de puzzles.
+- 💡 Mejorar el algoritmo de evaluación de los puzzles. 
 
 ---
 
