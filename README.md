@@ -83,3 +83,5 @@ El objetivo del proyecto es implementar un tablero de Sudoku funcional que permi
 Este proyecto está bajo la licencia MIT. Consulta el archivo [LICENSE](LICENSE) para más detalles.
 
 ---
+
+P.S.L. 2025
